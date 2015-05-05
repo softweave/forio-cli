@@ -52,6 +52,9 @@ createTempZip = (local, tempFile, callback) ->
 exports.run = (options)->
     console.log ""
 
+    silent = op.parseBoolean options.silent
+    #console.log silent
+
     [local, remote] = op.parseMapping options.mapping
     domain = op.parseDomain options.domain
 
@@ -68,15 +71,23 @@ exports.run = (options)->
         user: user_name
         pass: password
         domain: domain
+        silent: silent
 
-    confirm "Are you sure you want to deploy #{color local, "white"} to #{color remote, "white"} on #{color domain, "white"}?", ()->
-        createTempZip local, tempFile, ()->
-            getToken (token)->
-                uploadFile token, ()->
-                    st = fs.statSync(tempFile)
-                    sizeInMB = (st.size / (1024 * 1024)).toFixed(2)
+    deploy = ()->
+    console.log "Deploying " + local + " to " + remote
+    createTempZip local, tempFile, ()->
+        getToken (token)->
+            uploadFile token, ()->
+                st = fs.statSync(tempFile)
+                sizeInMB = (st.size / (1024 * 1024)).toFixed(2)
 
-                    console.log ""
-                    console.log "Uploaded #{color "#{sizeInMB}MB", "bold+white"} to #{color remote, "bold+white"} in #{process.uptime()} seconds"
+                console.log ""
+                console.log "Uploaded", color(sizeInMB + "MB", "bold+white"), "to", color(remote, "bold+white"), "in", process.uptime(), "seconds"
 
-                    die()
+                die()
+
+    if silent
+        deploy()
+    else
+        confirm "Are you sure you want to deploy #{color local, "white"} to #{color remote, "white"} on #{color domain, "white"}?", deploy
+

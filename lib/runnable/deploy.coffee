@@ -27,6 +27,10 @@ exports.options =
         abbr: "d"
         default: if default_platform is "simulate" then "forio.com" else "api.forio.com"
         help: "Domain Epicenter or Simulate is hosted on"
+    silent:
+        abbr: "s"
+        default: "false"
+        help: "if true, do not prompt for confirmation"
 
 exports.run = (options) ->
     {platform} = options

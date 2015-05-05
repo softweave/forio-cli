@@ -30,6 +30,7 @@ Commands are high-level actions you're allowed to perform. Each command can defi
        -p, --platform      Platform (epicenter or simulate)  [epicenter]
        -c, --config_file   Path to config file  [./config.json]
        -d, --domain        Domain Epicenter or Simulate is hosted on  [api.forio.com or forio.com]
+       -s, --silent        Do not prompt for confirmation if true. Otherwise, prompt.
 
     Deploy files to a simulation
 

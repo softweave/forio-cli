@@ -24,3 +24,14 @@ exports.parseDomain = (domain)->
 
     return domain
 
+exports.parseBoolean = (b)->
+    mapping =
+        "true": true
+        "false": false
+
+    value = false
+
+    if mapping[b] then value = mapping[b]
+
+    return value
+
